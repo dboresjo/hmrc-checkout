@@ -1,11 +1,11 @@
 import org.specs2.execute.Results
-import play.api.libs.json.{JsArray, JsNumber, JsString}
+import play.api.libs.json.{JsArray, JsNumber}
 import play.api.test.{FakeRequest, PlaySpecification, WithApplication}
 
 class ShoppingCartSpec extends PlaySpecification with Results {
   "calculate-cost" should {
     "return zero for zero items" in new WithApplication {
-      val givenItems = JsArray(Seq());
+      val givenItems = JsArray(Seq())
 
       val result = route(app, FakeRequest(GET, "/calculate-cost").withBody(givenItems)).get
 
