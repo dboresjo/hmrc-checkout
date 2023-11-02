@@ -9,11 +9,10 @@ import javax.inject._
 class ShoppingCartController extends InjectedController {
   def calculateCost(): Action[AnyContent] = Action { request =>
     val items = request.body.asJson.get.as[JsArray].value.map{_.as[String]}.toSeq
-    val cost = items match {
-      case Seq("Apple") => 60
-      case Seq("Orange") => 25
-      case Seq() => 0
+    val costs = items map {
+      case "Apple" => 60
+      case "Orange" => 25
     }
-    Ok(JsNumber(cost))
+    Ok(JsNumber(costs.sum))
   }
 }
