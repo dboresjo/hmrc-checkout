@@ -41,13 +41,23 @@ class ShoppingCartSpec extends PlaySpecification with Results {
     }
 
     "add all items including duplicates" in new WithApplication {
-      val givenItems = JsArray(Seq(JsString("Apple"), JsString("Apple"), JsString("Orange"), JsString("Apple")))
+      val givenItems = JsArray(Seq(JsString("Apple"), JsString("Orange"), JsString("Orange")))
 
       val result = route(app, FakeRequest(GET, "/calculate-cost").withBody(givenItems)).get
 
       status(result) must equalTo(OK)
-      contentAsJson(result) must equalTo(JsNumber(205))
+      contentAsJson(result) must equalTo(JsNumber(110))
     }
 
+    "honour offer" should {
+      "buy one apple, get one free" in new WithApplication {
+        val givenItems = JsArray(Seq(JsString("Apple"), JsString("Apple")))
+
+        val result = route(app, FakeRequest(GET, "/calculate-cost").withBody(givenItems)).get
+
+        status(result) must equalTo(OK)
+        contentAsJson(result) must equalTo(JsNumber(60))
+      }
+    }
   }
 }
