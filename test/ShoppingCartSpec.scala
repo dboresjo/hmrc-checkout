@@ -21,5 +21,15 @@ class ShoppingCartSpec extends PlaySpecification with Results {
       status(result) must equalTo(OK)
       contentAsJson(result) must equalTo(JsNumber(60))
     }
+
+    "return 25 for an orange" in new WithApplication {
+      val givenItems = JsArray(Seq(JsString("Orange")))
+
+      val result = route(app, FakeRequest(GET, "/calculate-cost").withBody(givenItems)).get
+
+      status(result) must equalTo(OK)
+      contentAsJson(result) must equalTo(JsNumber(25))
+    }
+
   }
 }
