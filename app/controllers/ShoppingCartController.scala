@@ -11,6 +11,7 @@ class ShoppingCartController extends InjectedController {
     val items = request.body.asJson.get.as[JsArray].value.map{_.as[String]}.toSeq
     val cost = items match {
       case Seq("Apple") => 60
+      case Seq("Orange") => 25
       case Seq() => 0
     }
     Ok(JsNumber(cost))
