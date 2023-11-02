@@ -13,7 +13,10 @@ class ShoppingCartController extends InjectedController {
       case "Apple" => 60
       case "Orange" => 25
     }
-    val discount = items.count(_=="Apple") / 2 * 60
-    Ok(JsNumber(costs.sum - discount))
+    val discounts = Seq(
+      items.count(_=="Apple") / 2 * 60,
+      items.count(_=="Orange") / 3 * 25,
+    )
+    Ok(JsNumber(costs.sum - discounts.sum))
   }
 }
